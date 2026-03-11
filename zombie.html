@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zombie.io</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050e02;font-family:'Share Tech Mono',monospace;color:#c0ffa0;overflow:hidden;height:100vh;width:100vw;user-select:none}
+#sm,#sg,#sd{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#sm{background:radial-gradient(ellipse at 50% 40%,#0a1e02,#050e02 70%);z-index:10}
+.logo{font-family:'Orbitron',monospace;font-size:clamp(2rem,7vw,4rem);font-weight:900;letter-spacing:.12em;color:#88ff00;text-shadow:0 0 30px #88ff00;animation:gp 2s infinite alternate}
+@keyframes gp{from{text-shadow:0 0 20px #88ff00}to{text-shadow:0 0 45px #88ff00,0 0 90px rgba(136,255,0,.3)}}
+.tg{margin-top:.5rem;font-size:.85rem;color:rgba(136,255,0,.45);letter-spacing:.25em;text-transform:uppercase}
+.frm{margin-top:2rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+.role-pick{display:flex;gap:12px;margin-bottom:.5rem}
+.rc{width:140px;padding:12px 10px;background:rgba(10,20,2,.9);border:2px solid rgba(255,255,255,.1);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s}
+.rc.sel-human{border-color:#00ff88;box-shadow:0 0 14px rgba(0,255,136,.3)}
+.rc.sel-zombie{border-color:#88ff00;box-shadow:0 0 14px rgba(136,255,0,.3)}
+.rc:hover{border-color:rgba(255,255,255,.3)}
+.rc .ri{font-size:1.8rem}.rc .rn{font-family:'Orbitron',monospace;font-size:.62rem;font-weight:700;letter-spacing:.1em}
+.rc .rd{font-size:.58rem;color:rgba(192,255,160,.4);text-align:center}
+input{background:transparent;border:1px solid #88ff00;color:#88ff00;font-family:'Orbitron',monospace;font-size:1rem;padding:.55rem 1.4rem;text-align:center;outline:none;box-shadow:0 0 10px rgba(136,255,0,.2);width:240px;letter-spacing:.1em}
+input::placeholder{opacity:.3}
+.btn{padding:.8rem 2.5rem;background:transparent;border:2px solid #88ff00;color:#88ff00;font-family:'Orbitron',monospace;font-size:.95rem;font-weight:700;letter-spacing:.2em;cursor:pointer;text-transform:uppercase;transition:all .18s;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:#88ff00;transform:scaleX(0);transform-origin:left;transition:transform .18s;z-index:-1}
+.btn:hover{color:#050e02}.btn:hover::before{transform:scaleX(1)}
+.hint{margin-top:1.5rem;font-size:.7rem;color:rgba(136,255,0,.35);text-align:center;line-height:1.8}
+.hint b{color:rgba(136,255,0,.6)}
+#sg{display:none}
+#gc{position:absolute;inset:0;display:block}
+#hud{position:absolute;inset:0;pointer-events:none}
+.panel{position:absolute;top:14px;left:14px;background:rgba(5,14,2,.85);border:1px solid rgba(136,255,0,.2);padding:8px 13px;backdrop-filter:blur(4px)}
+.hn{font-family:'Orbitron',monospace;font-size:.65rem;letter-spacing:.14em;margin-bottom:3px}
+.hbw{width:150px;height:6px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:3px}
+.sr{font-size:.6rem;color:rgba(192,255,160,.35);display:flex;gap:10px}
+.sr b{color:#ffff00}
+#lb{position:absolute;top:14px;right:14px;background:rgba(5,14,2,.85);border:1px solid rgba(136,255,0,.18);padding:9px 14px;min-width:165px;backdrop-filter:blur(4px)}
+#lb h3{font-family:'Orbitron',monospace;font-size:.58rem;letter-spacing:.2em;color:#88ff00;margin-bottom:7px;text-transform:uppercase}
+.lbe{display:flex;justify-content:space-between;font-size:.6rem;padding:2px 0;color:rgba(192,255,160,.4);gap:8px}
+.lbe.me{color:#00ffff}.lbe .lbs{color:#ffff00}.lbe .lbz{color:#ff6600}
+#mm{position:absolute;bottom:16px;right:16px;width:120px;height:120px;border:1px solid rgba(136,255,0,.13)}
+#sd{display:none;background:rgba(5,14,2,.95);z-index:20;backdrop-filter:blur(8px)}
+.dt{font-family:'Orbitron',monospace;font-size:clamp(1.8rem,5vw,3.5rem);font-weight:900;letter-spacing:.1em;animation:fl .15s infinite alternate}
+@keyframes fl{from{opacity:1}to{opacity:.85}}
+.ds{margin-top:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem 2rem;font-size:.78rem;color:rgba(192,255,160,.38)}
+.ds b{color:#88ff00}
+a.back{position:absolute;top:14px;left:14px;text-decoration:none;font-size:.7rem;color:rgba(136,255,0,.45);background:rgba(5,14,2,.8);border:1px solid rgba(136,255,0,.15);padding:5px 10px;transition:color .15s;z-index:50}
+a.back:hover{color:#88ff00}
+#roleTag{position:absolute;top:70px;left:50%;transform:translateX(-50%);font-family:'Orbitron',monospace;font-size:.7rem;padding:4px 12px;letter-spacing:.15em}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Wróć</a>
+<div id="sm">
+  <div class="logo">ZOMBIE.IO</div>
+  <div class="tg">Zarażaj · Uciekaj · Przeżyj</div>
+  <div class="frm">
+    <div class="role-pick">
+      <div class="rc sel-human" id="rh" onclick="setRole('human')">
+        <div class="ri">🏃</div><div class="rn" style="color:#00ff88">OCALAŁY</div>
+        <div class="rd">Uciekaj i zbieraj apteczki</div>
+      </div>
+      <div class="rc" id="rz" onclick="setRole('zombie')">
+        <div class="ri">🧟</div><div class="rn" style="color:#88ff00">ZOMBIE</div>
+        <div class="rd">Zarażaj i buduj hordę</div>
+      </div>
+    </div>
+    <input id="pn" type="text" placeholder="OCALAŁY_01" maxlength="14" spellcheck="false">
+    <button class="btn" onclick="startGame()">▶ GRAJ</button>
+  </div>
+  <div class="hint"><b>WASD</b> — Ruch &nbsp;|&nbsp; Ocalały: uciekaj, zbieraj <b>apteczki ❤️</b><br>Zombie: doganiaj i zarażaj ocalałych! Zbuduj największą hordę!</div>
+</div>
+<div id="sg">
+  <canvas id="gc"></canvas>
+  <div id="hud">
+    <div class="panel"><div class="hn" id="hn">GRACZ</div><div class="hbw"><div id="hb" style="width:100%"></div></div><div class="sr" id="ssr">HP: <b id="hhp">100</b> &nbsp; Czas: <b id="htm">0s</b> &nbsp; <span id="hst"></span></div></div>
+    <div id="lb"><h3>Ranking</h3><div id="lbl"></div></div>
+    <canvas id="mm"></canvas>
+    <div id="roleTag"></div>
+  </div>
+</div>
+<div id="sd">
+  <div class="dt" id="dtt">ZARAŻONY</div>
+  <div class="ds" id="dds"></div>
+  <button class="btn" style="margin-top:1.8rem" onclick="respawn()">⟳ ZAGRAJ PONOWNIE</button>
+</div>
+<script>
+const WORLD=3200,HUMAN_N=12,ZOMBIE_N=8,MEDKIT_N=20;
+let cv,cx,mm,mx;
+let P,entities=[],medkits=[],parts=[];
+let keys={},running=false,lt=0,gtime=0,pRole='human';
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const clp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const dst=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+
+function setRole(r){
+  pRole=r;
+  document.getElementById('rh').className='rc'+(r==='human'?' sel-human':'');
+  document.getElementById('rz').className='rc'+(r==='zombie'?' sel-zombie':'');
+  document.getElementById('pn').placeholder=r==='human'?'OCALAŁY_01':'ZOMBIE_01';
+}
+
+function makeHuman(name,isPlayer){
+  return{x:rnd(100,WORLD-100),y:rnd(100,WORLD-100),vx:0,vy:0,r:15,hp:100,maxHp:100,
+    speed:rnd(150,175),role:'human',infected:false,infectTimer:0,
+    name:name||(isPlayer?'OCALAŁY':'SRV'+Math.floor(rnd(10,99))),
+    color:'#00ff88',isPlayer:!!isPlayer,alive:true,score:0,
+    tx:rnd(100,WORLD-100),ty:rnd(100,WORLD-100),wanderT:0,iFr:0,
+    infectedBy:null};
+}
+
+function makeZombie(name,isPlayer){
+  return{x:rnd(100,WORLD-100),y:rnd(100,WORLD-100),vx:0,vy:0,r:16,hp:120,maxHp:120,
+    speed:rnd(110,140),role:'zombie',
+    name:name||(isPlayer?'ZOMBIE':'ZMB'+Math.floor(rnd(10,99))),
+    color:'#88ff00',isPlayer:!!isPlayer,alive:true,score:0,horde:0,
+    tx:rnd(100,WORLD-100),ty:rnd(100,WORLD-100),wanderT:0,iFr:0};
+}
+
+function makeMedkit(){return{x:rnd(60,WORLD-60),y:rnd(60,WORLD-60),r:9,pulse:rnd(0,Math.PI*2),alive:true};}
+
+function init(){
+  cv=document.getElementById('gc');cx=cv.getContext('2d');
+  mm=document.getElementById('mm');mx=mm.getContext('2d');mm.width=mm.height=120;
+  resize();window.addEventListener('resize',resize);
+  cv.addEventListener('mousemove',()=>{});
+  window.addEventListener('keydown',e=>keys[e.code]=true);window.addEventListener('keyup',e=>keys[e.code]=false);
+}
+function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+
+function startGame(){
+  const name=(document.getElementById('pn').value.trim().toUpperCase()||'GRACZ_01').slice(0,14);
+  document.getElementById('sm').style.display='none';document.getElementById('sg').style.display='block';document.getElementById('sd').style.display='none';
+  entities=[];
+  if(pRole==='human'){
+    P=makeHuman(name,true);P.x=WORLD/2;P.y=WORLD/2;entities.push(P);
+    for(let i=0;i<HUMAN_N;i++)entities.push(makeHuman());
+    for(let i=0;i<ZOMBIE_N;i++)entities.push(makeZombie());
+  } else {
+    P=makeZombie(name,true);P.x=WORLD/2;P.y=WORLD/2;entities.push(P);
+    for(let i=0;i<HUMAN_N+4;i++)entities.push(makeHuman());
+    for(let i=0;i<ZOMBIE_N-1;i++)entities.push(makeZombie());
+  }
+  medkits=Array.from({length:MEDKIT_N},makeMedkit);parts=[];
+  running=true;gtime=0;
+  document.getElementById('hn').textContent=P.name;
+  document.getElementById('hn').style.color=pRole==='human'?'rgba(0,255,136,.55)':'rgba(136,255,0,.55)';
+  document.getElementById('hb').style.background=pRole==='human'?'linear-gradient(90deg,#00ff88,#00ffff)':'linear-gradient(90deg,#88ff00,#ffff00)';
+  const tag=document.getElementById('roleTag');tag.textContent=pRole==='human'?'🏃 OCALAŁY':'🧟 ZOMBIE';tag.style.background=pRole==='human'?'rgba(0,60,30,.9)':'rgba(30,60,0,.9)';tag.style.border=`1px solid ${pRole==='human'?'rgba(0,255,136,.3)':'rgba(136,255,0,.3)'}`;tag.style.color=pRole==='human'?'#00ff88':'#88ff00';
+  if(!cv)init();requestAnimationFrame(loop);
+}
+function respawn(){document.getElementById('sd').style.display='none';startGame();}
+function loop(ts){if(!running)return;const dt=Math.min((ts-lt)/1000,.05);lt=ts;gtime+=dt;update(dt);render();requestAnimationFrame(loop);}
+
+function update(dt){
+  updatePlayer(dt);updateEntities(dt);
+  for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=.88;p.vy*=.88;p.life-=dt*1.2;if(p.life<=0)parts.splice(i,1);}
+  // infection spreading
+  const zombies=entities.filter(e=>e.alive&&e.role==='zombie');
+  const humans=entities.filter(e=>e.alive&&e.role==='human');
+  zombies.forEach(z=>{
+    humans.forEach(h=>{
+      if(dst(z,h)<z.r+h.r+4){
+        // infect
+        h.role='zombie';h.color='#88ff00';h.maxHp=120;h.hp=80;h.speed*=.85;h.name='Z-'+h.name.slice(0,6);
+        mkParts(h.x,h.y,'#88ff00',10);
+        if(z.isPlayer)P.score+=50;
+        z.score+=50;z.horde=(z.horde||0)+1;
+      }
+    });
+  });
+  // medkits for humans
+  if(P.alive&&P.role==='human'){
+    for(let i=medkits.length-1;i>=0;i--){
+      if(dst(P,medkits[i])<P.r+medkits[i].r){P.hp=Math.min(P.maxHp,P.hp+35);P.score+=10;mkParts(medkits[i].x,medkits[i].y,'#00ff88',6);medkits.splice(i,1);medkits.push(makeMedkit());}
+    }
+    // human bots also pick up medkits
+    entities.filter(e=>e.alive&&e.role==='human'&&!e.isPlayer).forEach(h=>{for(let i=medkits.length-1;i>=0;i--){if(dst(h,medkits[i])<h.r+medkits[i].r){h.hp=Math.min(h.maxHp,h.hp+25);medkits.splice(i,1);medkits.push(makeMedkit());}}});
+  }
+  // passive score for humans surviving
+  if(P.alive&&P.role==='human') P.score+=dt*5;
+  updateHUD();
+  // check player still human? If infected, update role tag
+  if(P.alive&&P.role==='zombie'&&pRole==='human'){pRole='zombie';const tag=document.getElementById('roleTag');tag.textContent='🧟 ZARAŻONY!';tag.style.color='#ff6600';tag.style.borderColor='rgba(255,102,0,.3)';}
+  // game over: player is zombie who got their humans turn and all humans gone, or human dead
+  if(P.alive&&P.role==='human'&&entities.filter(e=>e.alive&&e.role==='zombie').length>=entities.filter(e=>e.alive).length){gameOver('survived');}
+}
+
+function updatePlayer(dt){
+  if(!P.alive)return;
+  let dx=0,dy=0;
+  if(keys['KeyA']||keys['ArrowLeft'])dx-=1;if(keys['KeyD']||keys['ArrowRight'])dx+=1;
+  if(keys['KeyW']||keys['ArrowUp'])dy-=1;if(keys['KeyS']||keys['ArrowDown'])dy+=1;
+  if(dx||dy){const l=Math.hypot(dx,dy);dx/=l;dy/=l;}
+  P.vx=dx*P.speed;P.vy=dy*P.speed;
+  P.x=clp(P.x+P.vx*dt,P.r,WORLD-P.r);P.y=clp(P.y+P.vy*dt,P.r,WORLD-P.r);
+  // zombie player can't "die" normally - game ends differently
+}
+
+function updateEntities(dt){
+  entities.forEach(e=>{
+    if(!e.alive||e.isPlayer)return;
+    e.wanderT=Math.max(0,(e.wanderT||0)-dt);
+    if(e.role==='zombie'){
+      // find nearest human
+      const humans=entities.filter(h=>h.alive&&h.role==='human');
+      let tgt=null,minD=Infinity;
+      humans.forEach(h=>{const d=dst(e,h);if(d<minD){minD=d;tgt=h;}});
+      if(P.alive&&P.role==='human'){const d=dst(e,P);if(d<minD){minD=d;tgt=P;}}
+      if(tgt&&minD<320){
+        const ang=Math.atan2(tgt.y-e.y,tgt.x-e.x);
+        e.vx=Math.cos(ang)*e.speed;e.vy=Math.sin(ang)*e.speed;
+      } else {
+        if(e.wanderT<=0){e.tx=rnd(100,WORLD-100);e.ty=rnd(100,WORLD-100);e.wanderT=rnd(2,5);}
+        const ang=Math.atan2(e.ty-e.y,e.tx-e.x);e.vx=Math.cos(ang)*e.speed*.7;e.vy=Math.sin(ang)*e.speed*.7;
+      }
+    } else {// human bot - flee from zombies
+      const zombies=entities.filter(z=>z.alive&&z.role==='zombie');
+      let threat=null,minD=Infinity;
+      zombies.forEach(z=>{const d=dst(e,z);if(d<minD){minD=d;threat=z;}});
+      if(P.alive&&P.role==='zombie'){const d=dst(e,P);if(d<minD){threat=P;}}
+      if(threat&&minD<280){
+        const ang=Math.atan2(e.y-threat.y,e.x-threat.x);
+        e.vx=Math.cos(ang)*e.speed*1.1;e.vy=Math.sin(ang)*e.speed*1.1;
+      } else {
+        if(e.wanderT<=0){e.tx=rnd(100,WORLD-100);e.ty=rnd(100,WORLD-100);e.wanderT=rnd(2,5);}
+        const ang=Math.atan2(e.ty-e.y,e.tx-e.x);e.vx=Math.cos(ang)*e.speed*.6;e.vy=Math.sin(ang)*e.speed*.6;
+      }
+    }
+    e.x=clp(e.x+e.vx*dt,e.r,WORLD-e.r);e.y=clp(e.y+e.vy*dt,e.r,WORLD-e.r);
+  });
+  // player zombie: infect nearby humans on overlap
+  if(P.alive&&P.role==='zombie'){
+    entities.filter(e=>e.alive&&e.role==='human').forEach(h=>{if(dst(P,h)<P.r+h.r+4){h.role='zombie';h.color='#88ff00';h.speed*=.85;h.name='Z-'+h.name.slice(0,6);mkParts(h.x,h.y,'#88ff00',10);P.score+=50;P.horde=(P.horde||0)+1;}});
+  }
+}
+
+function mkParts(x,y,col,n=8){for(let i=0;i<n;i++){const a=rnd(0,Math.PI*2),s=rnd(40,160);parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,r:rnd(2,5),color:col,life:1,ml:rnd(.3,.7)});}}
+
+function render(){
+  const W=cv.width,H=cv.height;
+  const camX=P.alive?P.x:WORLD/2,camY=P.alive?P.y:WORLD/2;
+  const ox=camX-W/2,oy=camY-H/2;
+  cx.fillStyle='#050e02';cx.fillRect(0,0,W,H);
+  cx.save();cx.translate(-ox,-oy);
+  // grid
+  cx.strokeStyle='rgba(0,60,0,.15)';cx.lineWidth=1;
+  const step=80,sx=Math.floor(ox/step)*step,sy=Math.floor(oy/step)*step;
+  for(let x=sx;x<ox+W+step;x+=step){cx.beginPath();cx.moveTo(x,oy);cx.lineTo(x,oy+H);cx.stroke();}
+  for(let y=sy;y<oy+H+step;y+=step){cx.beginPath();cx.moveTo(ox,y);cx.lineTo(ox+W,y);cx.stroke();}
+  cx.strokeStyle='rgba(136,255,0,.15)';cx.lineWidth=3;cx.strokeRect(0,0,WORLD,WORLD);
+  // medkits
+  medkits.forEach(m=>{if(!m.alive)return;m.pulse+=.08;const s=1+Math.sin(m.pulse)*.22;cx.save();cx.translate(m.x,m.y);cx.scale(s,s);cx.shadowColor='#00ff88';cx.shadowBlur=12;cx.fillStyle='rgba(0,60,30,.8)';cx.fillRect(-m.r,-m.r,m.r*2,m.r*2);cx.fillStyle='#00ff88';cx.fillRect(-2,-m.r+3,4,m.r*2-6);cx.fillRect(-m.r+3,-2,m.r*2-6,4);cx.shadowBlur=0;cx.restore();});
+  // parts
+  parts.forEach(p=>{cx.globalAlpha=Math.max(0,p.life);cx.fillStyle=p.color;cx.beginPath();cx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);cx.fill();cx.globalAlpha=1;});
+  // entities
+  entities.filter(e=>e.alive&&!e.isPlayer).forEach(e=>drawEntity(e));
+  if(P.alive)drawEntity(P);
+  cx.restore();
+  drawMM(camX,camY);
+}
+
+function drawEntity(e){
+  const isZ=e.role==='zombie';const col=isZ?'#88ff00':'#00ff88';const rgb=isZ?'136,255,0':'0,255,136';
+  cx.shadowColor=col;cx.shadowBlur=e.isPlayer?18:10;
+  cx.beginPath();cx.arc(e.x,e.y,e.r,0,Math.PI*2);cx.fillStyle=`rgba(${rgb},.15)`;cx.fill();
+  cx.strokeStyle=col;cx.lineWidth=e.isPlayer?2.8:2;cx.stroke();
+  if(isZ){// zombie arms/icon
+    cx.font=`${e.r*1.2}px sans-serif`;cx.textAlign='center';cx.fillText('🧟',e.x,e.y+e.r*.35);
+  } else {
+    cx.beginPath();cx.arc(e.x,e.y,e.r*.38,0,Math.PI*2);cx.fillStyle=col;cx.shadowBlur=6;cx.fill();cx.shadowBlur=0;
+    const ang=Math.atan2(e.vy||0,e.vx||0);cx.beginPath();cx.arc(e.x+Math.cos(ang)*e.r*.35,e.y+Math.sin(ang)*e.r*.35,e.r*.2,0,Math.PI*2);cx.fillStyle='rgba(0,0,0,.4)';cx.fill();
+  }
+  cx.shadowBlur=0;
+  const bw=e.r*2.4,bh=3,bx=e.x-bw/2,by=e.y-e.r-10;
+  cx.fillStyle='rgba(0,0,0,.5)';cx.fillRect(bx,by,bw,bh);const fr=e.hp/e.maxHp;cx.fillStyle=isZ?'#88ff00':'#00ff88';cx.fillRect(bx,by,bw*fr,bh);
+  cx.fillStyle=e.isPlayer?'rgba(255,255,255,.9)':'rgba(192,255,160,.55)';cx.font=`10px "Share Tech Mono"`;cx.textAlign='center';cx.fillText(e.name,e.x,e.y+e.r+14);
+}
+
+function drawMM(camX,camY){
+  const s=120/WORLD;mx.fillStyle='rgba(5,14,2,.94)';mx.fillRect(0,0,120,120);
+  medkits.forEach(m=>{mx.fillStyle='rgba(0,255,136,.4)';mx.fillRect(m.x*s-1,m.y*s-1,3,3);});
+  entities.filter(e=>e.alive&&!e.isPlayer).forEach(e=>{mx.fillStyle=e.role==='zombie'?'#88ff00':'#00ff88';mx.beginPath();mx.arc(e.x*s,e.y*s,2.5,0,Math.PI*2);mx.fill();});
+  if(P.alive){mx.fillStyle='#fff';mx.shadowColor='#fff';mx.shadowBlur=5;mx.beginPath();mx.arc(P.x*s,P.y*s,3.5,0,Math.PI*2);mx.fill();mx.shadowBlur=0;}
+  mx.strokeStyle='rgba(136,255,0,.1)';mx.strokeRect(0,0,120,120);
+}
+
+function updateHUD(){
+  if(!P.alive)return;
+  const pct=P.hp/P.maxHp*100;document.getElementById('hb').style.width=pct+'%';
+  document.getElementById('hhp').textContent=Math.ceil(P.hp);
+  document.getElementById('htm').textContent=Math.floor(gtime)+'s';
+  const allZ=entities.filter(e=>e.alive&&e.role==='zombie').length;
+  const allH=entities.filter(e=>e.alive&&e.role==='human').length;
+  document.getElementById('hst').innerHTML=`🧟<b style="color:#88ff00">${allZ}</b> 🏃<b style="color:#00ff88">${allH}</b>`;
+  const all=[P,...entities.filter(e=>!e.isPlayer&&e.alive)];
+  all.sort((a,b)=>b.score-a.score);
+  document.getElementById('lbl').innerHTML=all.slice(0,8).map((e,i)=>`<div class="lbe${e===P?' me':''}"><span style="color:rgba(255,255,255,.2)">#${i+1}</span><span>${e.name.slice(0,9)}</span><span class="lbz">${e.role==='zombie'?'🧟':'🏃'}</span><span class="lbs">${Math.floor(e.score)}</span></div>`).join('');
+}
+
+function gameOver(type){
+  running=false;document.getElementById('sd').style.display='flex';
+  const all=[P,...entities];all.sort((a,b)=>b.score-a.score);const rank=all.findIndex(e=>e===P)+1;
+  const isHuman=P.role==='human';
+  const dtt=document.getElementById('dtt');
+  if(type==='survived'){dtt.textContent='OCALAŁEŚ!';dtt.style.color='#00ff88';}
+  else{dtt.textContent=isHuman?'ZARAŻONY':'KONIEC GRY';dtt.style.color=isHuman?'#ff6600':'#88ff00';}
+  const allZ=entities.filter(e=>e.role==='zombie').length,allH=entities.filter(e=>e.role==='human').length;
+  document.getElementById('dds').innerHTML=`<div>Wynik: <b>${Math.floor(P.score)}</b></div><div>Czas: <b>${Math.floor(gtime)}s</b></div><div>Zombie: <b>${allZ}</b></div><div>Ocalali: <b>${allH}</b></div>`;
+}
+
+window.addEventListener('load',()=>{init();document.getElementById('pn').focus();document.getElementById('pn').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});});
+</script>
+</body>
+</html>
